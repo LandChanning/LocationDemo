@@ -195,4 +195,5 @@
     <string name="location_marker_info">位置标注及信息展示</string>
     <string name="route_plan">路径规划</string>
     <string name="guide">导航</string>
+    <string name="app_id">输入您讯飞的appid</string>
 </resources>
