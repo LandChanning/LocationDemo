@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.deepai.locationdemo.guide.RestRouteShowActivity;
+import com.deepai.locationdemo.guide.SingleRouteCalculateActivity;
 import com.deepai.locationdemo.marker.InfoWindowActivity;
 import com.deepai.locationdemo.route.RouteActivity;
 
@@ -14,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("测试git----","提交");
-
     }
 
     /**
@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
      * 导航
      */
     public void onGuide(View view) {
-
+        RestRouteShowActivity.goInto(this);
     }
-
-
 }

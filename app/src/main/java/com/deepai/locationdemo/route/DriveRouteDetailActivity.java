@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveRouteResult;
 import com.deepai.locationdemo.R;
+import com.deepai.locationdemo.guide.SingleRouteCalculateActivity;
 import com.deepai.locationdemo.route.adapter.DriveSegmentListAdapter;
 import com.deepai.locationdemo.util.AMapUtil;
 
@@ -69,7 +70,7 @@ public class DriveRouteDetailActivity extends Activity {
      * 去导航点击
      */
     public void onGuideTipClick(View view) {
-
+        SingleRouteCalculateActivity.goInto(this);
     }
 
     public void onBackClick(View view) {

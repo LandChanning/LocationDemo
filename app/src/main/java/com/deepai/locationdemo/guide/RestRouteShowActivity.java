@@ -1,6 +1,7 @@
 package com.deepai.locationdemo.guide;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -83,13 +84,20 @@ public class RestRouteShowActivity extends Activity implements AMapNaviListener,
      * 当前用户选中的路线，在下个页面进行导航
      */
     private int routeIndex;
-    /**路线的权值，重合路线情况下，权值高的路线会覆盖权值低的路线**/
+    /**
+     * 路线的权值，重合路线情况下，权值高的路线会覆盖权值低的路线
+     **/
     private int zindex = 1;
     /**
      * 路线计算成功标志位
      */
     private boolean calculateSuccess = false;
     private boolean chooseRouteSuccess = false;
+
+    public static void goInto(Context context) {
+        Intent intent = new Intent(context, RestRouteShowActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,7 +300,7 @@ public class RestRouteShowActivity extends Activity implements AMapNaviListener,
 
         //必须告诉AMapNavi 你最后选择的哪条路
         mAMapNavi.selectRouteId(routeID);
-        Toast.makeText(this, "导航距离:" + (mAMapNavi.getNaviPaths()).get(routeID).getStrategy()+ "\n" + "导航时间:" + (mAMapNavi.getNaviPaths()).get(routeID).getAllTime() + "s", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "导航距离:" + (mAMapNavi.getNaviPaths()).get(routeID).getStrategy() + "\n" + "导航时间:" + (mAMapNavi.getNaviPaths()).get(routeID).getAllTime() + "s", Toast.LENGTH_SHORT).show();
         routeIndex++;
 
         chooseRouteSuccess = true;
@@ -323,7 +331,7 @@ public class RestRouteShowActivity extends Activity implements AMapNaviListener,
                     Toast.makeText(getApplicationContext(), "高速优先与避免收费不能同时为true.", Toast.LENGTH_LONG).show();
                 }
             /*
-			 * strategyFlag转换出来的值都对应PathPlanningStrategy常量，用户也可以直接传入PathPlanningStrategy常量进行算路。
+             * strategyFlag转换出来的值都对应PathPlanningStrategy常量，用户也可以直接传入PathPlanningStrategy常量进行算路。
 			 * 如:mAMapNavi.calculateDriveRoute(mStartList, mEndList, mWayPointList,PathPlanningStrategy.DRIVING_DEFAULT);
 			 */
                 int strategyFlag = 0;

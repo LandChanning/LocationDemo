@@ -22,6 +22,7 @@ import com.amap.api.navi.model.NaviInfo;
 import com.amap.api.navi.model.NaviLatLng;
 import com.autonavi.tbt.NaviStaticInfo;
 import com.autonavi.tbt.TrafficFacilityInfo;
+import com.deepai.locationdemo.MeApplication;
 import com.deepai.locationdemo.util.TTSController;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class BaseActivity extends Activity implements AMapNaviListener, AMapNavi
         mTtsManager.init();
 
         //
-        mAMapNavi = AMapNavi.getInstance(getApplicationContext());
+        mAMapNavi = AMapNavi.getInstance(MeApplication.getInstance().getApplicationContext());
         mAMapNavi.addAMapNaviListener(this);
         mAMapNavi.addAMapNaviListener(mTtsManager);
 
@@ -144,7 +145,7 @@ public class BaseActivity extends Activity implements AMapNaviListener, AMapNavi
     @Override
     public void onCalculateRouteFailure(int errorInfo) {
         //路线计算失败
-        Log.i("dm","errorInfo="+errorInfo);
+        Log.i("dm", "errorInfo=" + errorInfo);
         Toast.makeText(this, "errorInfo:" + errorInfo, Toast.LENGTH_SHORT).show();
     }
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.amap.api.services.route.WalkPath;
 import com.deepai.locationdemo.R;
+import com.deepai.locationdemo.guide.WalkRouteCalculateActivity;
 import com.deepai.locationdemo.route.adapter.WalkSegmentListAdapter;
 import com.deepai.locationdemo.util.AMapUtil;
 
@@ -52,7 +53,7 @@ public class WalkRouteDetailActivity extends Activity {
      * 去导航点击
      */
     public void onGuideTipClick(View view) {
-
+        WalkRouteCalculateActivity.goInto(this);
     }
 
     public void onBackClick(View view) {
