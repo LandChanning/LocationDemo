@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.deepai.locationdemo.util;
 
 import android.content.Context;
