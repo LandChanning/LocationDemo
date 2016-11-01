@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.amap.api.location.AMapLocation;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
@@ -15,16 +16,25 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.deepai.locationdemo.R;
+import com.deepai.locationdemo.util.LocationUtil;
+import com.deepai.locationdemo.util.ToastUtil;
 
 /**
  * AMapV2地图中简单介绍一些Marker的用法.
  */
-public class InfoWindowActivity extends Activity implements OnClickListener {
+public class InfoWindowActivity extends Activity implements OnClickListener,
+        LocationUtil.LocationResultListener {
     private MarkerOptions markerOption;
+
     private AMap aMap;
+
     private MapView mapView;
+
     private Marker marker;
-    private LatLng latlng = new LatLng(39.91746, 116.396481);
+
+    private AMapLocation aMapLocation;
+
+    private LocationUtil locationUtil;
 
     public static void goInto(Context context) {
         Intent intent = new Intent(context, InfoWindowActivity.class);
@@ -54,10 +64,9 @@ public class InfoWindowActivity extends Activity implements OnClickListener {
         clearMap.setOnClickListener(this);
         Button resetMap = (Button) findViewById(R.id.resetMap);
         resetMap.setOnClickListener(this);
-        if (aMap == null) {
-            aMap = mapView.getMap();
-            addMarkersToMap();// 往地图上添加marker
-        }
+        locationUtil = new LocationUtil();
+        locationUtil.setResultListener(this);
+        locationUtil.startLocation();
     }
 
     /**
@@ -78,6 +87,12 @@ public class InfoWindowActivity extends Activity implements OnClickListener {
         mapView.onPause();
     }
 
+    @Override
+    protected void onStop() {
+        locationUtil.stopLocation();
+        super.onStop();
+    }
+
     /**
      * 方法必须重写
      */
@@ -92,6 +107,7 @@ public class InfoWindowActivity extends Activity implements OnClickListener {
      */
     @Override
     protected void onDestroy() {
+        locationUtil.destroyLocation();
         super.onDestroy();
         mapView.onDestroy();
     }
@@ -100,11 +116,23 @@ public class InfoWindowActivity extends Activity implements OnClickListener {
      * 在地图上添加marker
      */
     private void addMarkersToMap() {
+        LatLng latLng;
+        String titleTip;
+        String detailsTip;
+        if (aMapLocation != null) {
+            latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+            titleTip = aMapLocation.getCity();
+            detailsTip = aMapLocation.getAddress();
+        } else {
+            latLng = new LatLng(39.0, 116.0);
+            titleTip = "标题";
+            detailsTip = "详情";
+        }
         markerOption = new MarkerOptions().icon(BitmapDescriptorFactory
                 .defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                .position(latlng)
-                .title("标题")
-                .snippet("详细信息")
+                .position(latLng)
+                .title(titleTip)
+                .snippet(detailsTip)
                 .draggable(true);
         marker = aMap.addMarker(markerOption);
         marker.showInfoWindow();
@@ -134,5 +162,29 @@ public class InfoWindowActivity extends Activity implements OnClickListener {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void locationSuccess(AMapLocation location) {
+        this.aMapLocation = location;
+        if (aMap == null) {
+            aMap = mapView.getMap();
+            aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    if (marker != null) {
+                        marker.hideInfoWindow();
+                    }
+                    return false;
+                }
+            });
+            // 往地图上添加marker
+            addMarkersToMap();
+        }
+    }
+
+    @Override
+    public void locationFail(int failCode) {
+        ToastUtil.show(this, "定位失败");
     }
 }
