@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Location Demo</string>
+    <string name="app_name">定位Demo</string>
 
     <string name="animate">Animate</string>
     <string name="basic_map">基本地图</string>
