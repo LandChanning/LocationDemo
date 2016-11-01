@@ -29,4 +29,7 @@ dependencies {
     compile files('src/libs/Amap_2DMap_V2.9.2_20161026.jar')
     compile files('src/libs/AMap_Location_V2.4.1_20160414.jar')
     compile files('src/libs/AMap_Search_V3.5.0_20160927.jar')
+    compile files('src/libs/AMap_3DMap_V4.1.1_20161019.jar')
+    compile files('src/libs/AMap3DMap_4.0.1_AMapNavi_1.9.3_AMapLocation_3.0.0_20161014.jar')
+    compile files('src/libs/Msc.jar')
 }
